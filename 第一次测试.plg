@@ -1,0 +1,20 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+G:\全国电子设计大赛\自由摆\lllllll\keil\第一次测试.uvproj
+Project File Date:  08/26/2013
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling main.c...
+compiling HJ12864.c...
+linking...
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_SHOW_STR16?HJ12864
+    CALLER1: ?PR?ADC_INTERRUPT?MAIN
+    CALLER2: ?C_C51STARTUP
+Program Size: data=71.0 xdata=0 code=8020
+creating hex file from "第一次测试"...
+"第一次测试" - 0 Error(s), 1 Warning(s).

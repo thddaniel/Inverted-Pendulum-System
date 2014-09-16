@@ -1,0 +1,167 @@
+C51 COMPILER V9.06   HJ12864                                                               10/25/2013 21:32:49 PAGE 1   
+
+
+C51 COMPILER V9.06, COMPILATION OF MODULE HJ12864
+OBJECT MODULE PLACED IN HJ12864.OBJ
+COMPILER INVOKED BY: F:\keil\keil_another\C51\BIN\C51.EXE HJ12864.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /*绘晶HJ12864ZW相关各函数*/
+   2          /*核心函数: void LCD_init(void)                  初始化
+   3                void show_str16(uint8 addr,uint8 *str,uint8 count)   写字符串
+   4                void show_page(uint8 (*page)[16])          写页面
+   5                void show_NUM(uint8 addr,uint NUM)           写两位数字
+   6          */
+   7          
+   8          #include "includes.h"
+   9          
+  10          /*****************************短延时**********************/
+  11          //适用于stc12c5a60s2的11.0592M环境下。
+  12          void delay_12864(uint8 x)    //串口时指令和数据之间的延时
+  13          {            //大致量
+  14   1        uint8 k,j;
+  15   1        for(k=0;k<x;k++)
+  16   1          for(j=0;j<10;j++);
+  17   1      }
+  18          
+  19          /*
+  20          ///////////////////////////////////////////////////////////////////////////
+  21          ///////////并行数据模式下的函数////////////////////////////////////////////
+  22          void read_BF(void)
+  23          {
+  24             uint8 temp;
+  25             RS = 0;
+  26             RW = 1;
+  27             while(1)
+  28             {
+  29              P0 = 0xFF;
+  30              E  = 1;
+  31              temp = P0;
+  32              E  = 0;
+  33              if((temp&0x80)==0) break;
+  34             }
+  35          }
+  36          
+  37          
+  38          void w_com(uint8 com)
+  39          {
+  40            read_BF();
+  41            RS = 0;
+  42            RW = 0;
+  43            P0 = com;
+  44            E = 1;
+  45            E = 0;
+  46          }
+  47          
+  48          
+  49          void w_dat(uint8 dat)
+  50          {
+  51            read_BF();
+  52            RS = 1;
+  53            RW = 0;
+  54            P0 = dat;
+  55            E = 1;
+C51 COMPILER V9.06   HJ12864                                                               10/25/2013 21:32:49 PAGE 2   
+
+  56            E = 0;
+  57          }
+  58          */
+  59          //////////////////////////////////////////////////////////////
+  60          ////////////////////////////串行模式下的程序（注意模块上的PSB端有没有焊接）////
+  61          void SendByteLCD(uint8 WData)    //输入待写的数据或指令
+  62          {
+  63   1        uint8 i;
+  64   1        for(i=0;i<8;i++)
+  65   1        {
+  66   2          if((WData<<i)&0x80) RW = 1;    //数据左移，高位上线
+  67   2          else RW = 0;
+  68   2          E = 0;               //产生时钟
+  69   2          delay_12864(4);            //时钟所需最小时间值
+  70   2          E = 1;
+  71   2        }
+  72   1      }
+  73          
+  74          void w_com(uint8 Wdata)             //输入待写的数据
+  75          {
+  76   1        RS=0;
+  77   1        RS=1;
+  78   1        SendByteLCD(0xf8);
+  79   1        SendByteLCD(Wdata&0xf0);
+  80   1        SendByteLCD((Wdata<<4)&0xf0);
+  81   1        delay_12864(50);                       //缓冲延时
+  82   1      }
+  83          
+  84          void w_dat(uint8 Wdata)
+  85          {
+  86   1        RS = 0;
+  87   1        RS = 1;
+  88   1        SendByteLCD(0xfa);
+  89   1        SendByteLCD(Wdata&0xf0);
+  90   1        SendByteLCD((Wdata<<4)&0xf0);
+  91   1        delay_12864(50);                 //缓冲延时
+  92   1      }
+  93          
+  94          ///////////////////////////////////////////////////////////////
+  95          ///////////////////////////////////////////////////////////////
+  96          
+  97          
+  98          void LCD_init(void)
+  99          {
+ 100   1        //PSB = 1;               //并行下运行此行
+ 101   1        //REST = 1;REST = 0;REST = 1;    //并行下运行此行
+ 102   1        w_com(0x30);//功能设定   8-bit 基本指令
+ 103   1        w_com(0x06);//进入点设定
+ 104   1        w_com(0x01);//清屏
+ 105   1        w_com(0x0c);//显示状态。整体显示，游标不显示不反白。
+ 106   1        w_com(0x02);//地址归位
+ 107   1      }
+ 108          
+ 109          //行显示、多字节显示
+ 110          void show_str16(uint8 addr,uint8 *str,uint8 count)   
+ 111          {
+ 112   1        uint8 i = 0;
+ 113   1        w_com(addr);
+ 114   1        for(i=0;i<count;i++)
+ 115   1        {
+ 116   2          w_dat(str[i*2]);
+ 117   2          w_dat(str[i*2+1]);
+C51 COMPILER V9.06   HJ12864                                                               10/25/2013 21:32:49 PAGE 3   
+
+ 118   2        }
+ 119   1      }
+ 120          /*
+ 121          //10进制数字显示
+ 122          void show_NUM_10(uint8 addr,uint8 number)
+ 123          {
+ 124            uint8 num[2];
+ 125            num[0] = number/10+'0';
+ 126            num[1] = number%10+'0';
+ 127            show_str16(addr,num,1);
+ 128            
+ 129          }
+ 130          */
+ 131            
+ 132          
+ 133          ////////////////////整页显示//////////////////////////
+ 134          void show_page(uint8 (*page)[16])
+ 135          {
+ 136   1        show_str16(0x80,*page,8);
+ 137   1        show_str16(0x90,*(page+1),8);
+ 138   1        show_str16(0x88,*(page+2),8);
+ 139   1        show_str16(0x98,*(page+3),8);
+ 140   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    276    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

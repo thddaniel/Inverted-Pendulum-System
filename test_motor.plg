@@ -1,0 +1,33 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\dell\Desktop\lllllll\keil\test_motor.uvproj
+Project File Date:  08/13/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling T.c...
+STC12C5A60S2.H(13): error C141: syntax error near 'float'
+T.C(53): error C141: syntax error near 'a'
+T.C(53): error C202: 'a': undefined identifier
+T.C(54): error C202: 'i': undefined identifier
+T.C(56): error C202: 'a': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling T.c...
+STC12C5A60S2.H(13): error C141: syntax error near 'float'
+T.C(53): error C141: syntax error near 'a'
+T.C(53): error C202: 'a': undefined identifier
+T.C(54): error C202: 'i': undefined identifier
+T.C(56): error C202: 'a': undefined identifier
+Target not created
+Build target 'Target 1'
+compiling T.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?T
+Program Size: data=17.0 xdata=0 code=564
+creating hex file from "test_motor"...
+"test_motor" - 0 Error(s), 1 Warning(s).

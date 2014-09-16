@@ -1,0 +1,211 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        08/10/2013  20:54:59  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+E:\KEIL\C51\BIN\BL51.EXE AD.obj TO AD采样分析 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  AD.obj (AD)
+  E:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  E:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+  E:\KEIL\C51\LIB\C51S.LIB (?C?LMUL)
+  E:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+  E:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  AD采样分析 (AD)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000AH     UNIT         ?DT?AD
+            DATA    0012H     0004H     UNIT         _DATA_GROUP_
+            IDATA   0016H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0019H     UNIT         ?C_INITSEG
+            CODE    001CH     0008H     UNIT         ?PR?MAIN?AD
+            CODE    0024H     0006H     UNIT         ?PR?ADC_STOP?AD
+                    002AH     0001H                  *** GAP ***
+            CODE    002BH     0003H     ABSOLUTE     
+            CODE    002EH     0172H     UNIT         ?C?LIB_CODE
+            CODE    01A0H     00E0H     UNIT         ?PR?FILTER?AD
+            CODE    0280H     008CH     UNIT         ?C_C51STARTUP
+            CODE    030CH     0081H     UNIT         ?PR?ADC_INTERRUPT?AD
+            CODE    038DH     0030H     UNIT         ?PR?_GET_ADC?AD
+
+
+
+OVERLAY MAP OF MODULE:   AD采样分析 (AD)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?PR?ADC_INTERRUPT?AD           -----    -----
+  +--> ?PR?FILTER?AD
+
+?PR?FILTER?AD                  0012H    0004H
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?AD
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/10/2013  20:54:59  PAGE 2
+
+
+  +--> ?C_INITSEG
+
+?PR?MAIN?AD                    -----    -----
+  +--> ?PR?_GET_ADC?AD
+
+
+
+SYMBOL TABLE OF MODULE:  AD采样分析 (AD)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        AD
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0092H         PUBLIC        P1M0
+  D:0091H         PUBLIC        P1M1
+  B:00A8H.7       PUBLIC        EA
+  B:00A8H.5       PUBLIC        EADC
+  D:00A8H         PUBLIC        IE
+  D:00BDH         PUBLIC        ADC_RES
+  D:00B8H         PUBLIC        IP
+  C:030CH         PUBLIC        ADC_interrupt
+  D:0008H         PUBLIC        ADC_speed_choose
+  D:00D8H         PUBLIC        CCON
+  C:001CH         PUBLIC        main
+  D:0009H         PUBLIC        ADC_Result
+  D:00BCH         PUBLIC        ADC_CONTR
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:000BH         PUBLIC        ADC_DATA
+  D:000DH         PUBLIC        ADC_counts
+  C:038DH         PUBLIC        _Get_ADC
+  D:000EH         PUBLIC        ADC_times
+  D:000FH         PUBLIC        ADC_ch_choose
+  D:009DH         PUBLIC        P1ASF
+  D:00BEH         PUBLIC        ADC_RESL
+  D:0010H         PUBLIC        NEW_DATA
+  C:01A0H         PUBLIC        Filter
+  C:0024H         PUBLIC        ADC_stop
+  D:00A2H         PUBLIC        AUXR1
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          FILTER
+  -------         DO            
+  D:0012H         SYMBOL        count_temp
+  -------         ENDDO         
+  C:01A0H         LINE#         22
+  C:01A0H         LINE#         23
+  C:01A0H         LINE#         24
+  C:01A9H         LINE#         25
+  C:01B4H         LINE#         26
+  C:01B4H         LINE#         27
+  C:01C8H         LINE#         28
+  C:01DCH         LINE#         29
+  C:01F1H         LINE#         30
+  C:0209H         LINE#         31
+  C:0214H         LINE#         32
+  C:0215H         LINE#         33
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/10/2013  20:54:59  PAGE 3
+
+
+  C:0220H         LINE#         34
+  C:0220H         LINE#         35
+  C:0234H         LINE#         36
+  C:0248H         LINE#         37
+  C:025DH         LINE#         38
+  C:0275H         LINE#         39
+  C:027FH         LINE#         40
+  C:027FH         LINE#         41
+  -------         ENDPROC       FILTER
+  -------         PROC          _GET_ADC
+  D:0007H         SYMBOL        ch
+  D:0005H         SYMBOL        ADC_SPEED
+  D:0003H         SYMBOL        times
+  C:038DH         LINE#         45
+  C:038DH         LINE#         46
+  C:038DH         LINE#         47
+  C:038FH         LINE#         48
+  C:0394H         LINE#         49
+  C:0398H         LINE#         50
+  C:039AH         LINE#         51
+  C:039CH         LINE#         52
+  C:039EH         LINE#         53
+  C:03A1H         LINE#         54
+  C:03A4H         LINE#         55
+  C:03A7H         LINE#         56
+  C:03A9H         LINE#         57
+  C:03ABH         LINE#         58
+  C:03ADH         LINE#         59
+  C:03B5H         LINE#         60
+  C:03B6H         LINE#         61
+  C:03B7H         LINE#         62
+  C:03B8H         LINE#         63
+  C:03BAH         LINE#         64
+  C:03BCH         LINE#         65
+  -------         ENDPROC       _GET_ADC
+  -------         PROC          ADC_STOP
+  C:0024H         LINE#         67
+  C:0024H         LINE#         68
+  C:0024H         LINE#         69
+  C:0027H         LINE#         70
+  C:0029H         LINE#         71
+  -------         ENDPROC       ADC_STOP
+  -------         PROC          MAIN
+  C:001CH         LINE#         74
+  C:001CH         LINE#         75
+  C:001CH         LINE#         76
+  -------         ENDPROC       MAIN
+  -------         PROC          ADC_INTERRUPT
+  C:030CH         LINE#         80
+  C:0329H         LINE#         82
+  C:032CH         LINE#         83
+  C:0346H         LINE#         84
+  C:0348H         LINE#         85
+  C:034DH         LINE#         86
+  C:034DH         LINE#         87
+  C:035BH         LINE#         88
+  C:035EH         LINE#         89
+BL51 BANKED LINKER/LOCATER V6.22                                                      08/10/2013  20:54:59  PAGE 4
+
+
+  C:0364H         LINE#         90
+  C:0367H         LINE#         91
+  C:0367H         LINE#         92
+  C:036FH         LINE#         93
+  C:0370H         LINE#         94
+  C:0371H         LINE#         95
+  C:0372H         LINE#         96
+  -------         ENDPROC       ADC_INTERRUPT
+  -------         ENDMOD        AD
+
+  -------         MODULE        ?C?UIDIV
+  C:002EH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?LMUL
+  C:0083H         PUBLIC        ?C?LMUL
+  -------         ENDMOD        ?C?LMUL
+
+  -------         MODULE        ?C?ULDIV
+  C:010EH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?ADC_STOP?AD
+
+Program Size: data=23.0 xdata=0 code=956
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
